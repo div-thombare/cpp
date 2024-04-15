@@ -1,0 +1,114 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <ctime>
+
+using namespace std;
+
+class Date {
+private:
+    int day;
+    int month;
+    int year;
+
+public:
+    
+    Date() : day(1), month(1), year(2000) {}
+
+  
+    Date(int d, int m, int y) : day(d), month(m), year(y) {}
+
+
+    void acceptDate() {
+        cout << "Enter day: ";
+        cin >> day;
+        cout << "Enter month: ";
+        cin >> month;
+        cout << "Enter year: ";
+        cin >> year;
+    }
+
+  
+    void displayDate() const {
+        cout << "Date in dd-mm-yyyy format: " << setw(2) << setfill('0') << day << "-" << setw(2) << setfill('0') << month << "-" << year << endl;
+
+        const char* monthAbbreviations[] = {"", "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
+
+        cout << "Date in dd-MMM-yyyy format: " << setw(2) << setfill('0') << day << "-" << monthAbbreviations[month] << "-" << year << endl;
+
+        cout << "Date in dd/mm/yy format: " << setw(2) << setfill('0') << day << "/" << setw(2) << setfill('0') << month << "/" << (year % 100) << endl;
+    }
+
+ 
+    int difference(const Date& other) const {
+        time_t t1 = convertToTimeT();
+        time_t t2 = other.convertToTimeT();
+        return difftime(t2, t1) / (60 * 60 * 24); 
+    }
+
+    
+    time_t convertToTimeT() const {
+        struct tm timeinfo = {0};
+        timeinfo.tm_year = year - 1900; // Years since 1900
+        timeinfo.tm_mon = month - 1; // Months are 0-based
+        timeinfo.tm_mday = day;
+        return mktime(&timeinfo);
+    }
+
+  
+    void incrementDayMonth() {
+       
+        day++;
+        if (day > daysInMonth(month, year)) {
+            day = 1;
+            month++;
+            if (month > 12) {
+                month = 1;
+                year++;
+            }
+        }
+    }
+
+private:
+    
+    int daysInMonth(int m, int y) const {
+        switch (m) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                return 31;
+            case 4: case 6: case 9: case 11:
+                return 30;
+            case 2:
+                if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0))
+                    return 29;
+                else
+                    return 28;
+            default:
+                return -1; 
+        }
+    }
+};
+
+int main() {
+    Date date1, date2;
+
+    cout << "Enter details for first date:" << endl;
+    date1.acceptDate();
+
+    cout << "\nEnter details for second date:" << endl;
+    date2.acceptDate();
+
+    cout << "\nFirst Date:" << endl;
+    date1.displayDate();
+
+    cout << "\nSecond Date:" << endl;
+    date2.displayDate();
+
+    int daysDiff = date2.difference(date1);
+    cout << "\nDifference between dates: " << daysDiff << " days" << endl;
+
+    cout << "\nIncrementing first date by one day and month:" << endl;
+    date1.incrementDayMonth();
+    date1.displayDate();
+
+    return 0;
+}
