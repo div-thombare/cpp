@@ -1,0 +1,53 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+
+void calculateDonation(const string& movieName, double adultPrice, double childPrice, int numAdultTickets, int numChildTickets, double donationPercentage) {
+   
+    double totalRevenue = (adultPrice * numAdultTickets) + (childPrice * numChildTickets);
+    
+  
+    double donationAmount = (donationPercentage / 100.0) * totalRevenue;
+    
+    
+    cout << "\nMovie Name: " << movieName << endl;
+    cout << "Number of Adult Tickets Sold: " << numAdultTickets << endl;
+    cout << "Number of Child Tickets Sold: " << numChildTickets << endl;
+    cout << fixed << setprecision(2); // Set precision for floating-point output
+    cout << "Total Gross Amount: $" << totalRevenue << endl;
+    cout << "Donation Percentage: " << donationPercentage << "%" << endl;
+    cout << "Donation Amount to Charity: $" << donationAmount << endl;
+}
+
+int main() {
+  
+    string movieName;
+    double adultPrice, childPrice, donationPercentage;
+    int numAdultTickets, numChildTickets;
+    
+    cout << "Enter the movie name: ";
+    getline(cin, movieName); 
+    
+    cout << "Enter the price of an adult ticket: $";
+    cin >> adultPrice;
+    
+    cout << "Enter the price of a child ticket: $";
+    cin >> childPrice;
+    
+    cout << "Enter the number of adult tickets sold: ";
+    cin >> numAdultTickets;
+    
+    cout << "Enter the number of child tickets sold: ";
+    cin >> numChildTickets;
+    
+    cout << "Enter the percentage of the gross amount to be donated to charity (e.g., 10 for 10%): ";
+    cin >> donationPercentage;
+    
+   
+    calculateDonation(movieName, adultPrice, childPrice, numAdultTickets, numChildTickets, donationPercentage);
+    
+    return 0;
+}
