@@ -3,14 +3,14 @@
 #include<iostream>
 using namespace std;
 class person{
-	private:
+	public:
 		char name[10];
 		int age;
 		int phone;
 		char address[20];
 };
 
-class student : public: person{
+class student : public person{
 		int rollno;
 		int marks;
 		public: void getdata()
