@@ -10,7 +10,7 @@ class person{
 		char address[20];
 };
 
-class student : public person{
+class student : private person{
 		int rollno;
 		int marks;
 		public: void getdata()
